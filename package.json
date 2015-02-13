@@ -1,6 +1,6 @@
 {
   "name": "derbados",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A server management tool for lazy people.",
   "author": "Ewan Valentine <ewan@theladbible.com>",
 	"dependencies": {
