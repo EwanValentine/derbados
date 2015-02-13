@@ -9,7 +9,7 @@ _.forEach(config.get('hosts'), function(host, name) {
   if(name === args[0]) {
     _.forEach(config.get('aliases'), function(command, alias) {
       if(args[1] === alias) {
-        exec(commans, host).pipe(process.stdout);
+        exec(command, host).pipe(process.stdout);
       } else {
         exec(args[1], host).pipe(process.stdout);
       }
