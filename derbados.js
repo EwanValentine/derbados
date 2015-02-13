@@ -39,7 +39,7 @@ program
 console.log(chalk.black.bgBlue('Derbados. Server management tool for lazy people.'));
 
 // Foreach host entry
-_.forEach(config.get('hosts'), function(host, name) {e
+_.forEach(config.get('hosts'), function(host, name) {
 
   // If host name equals host argument
   if(name === program.host) {
