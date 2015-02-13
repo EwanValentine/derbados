@@ -1,0 +1,8 @@
+{
+	"hosts": {
+		"main" : { "host": "", "password": "root", "user": "root", "key": "~/.ssh/id_rsa" }
+	},
+	"aliases": {
+		"test": "echo 'This is a test.'"
+	}
+}
