@@ -30,38 +30,36 @@ var config = require('config');
 var program = require('commander');
 var chalk = require('chalk');
 
-console.log(config.util.getEnv('NODE_CONFIG_DIR'));
+program
+  .version('0.0.1')
+  .option('-h, --host [host]', 'Host name (Config reference only, not full host name).', '')
+  .option('-c, --command [command]', 'Command or alias', '')
+  .parse(process.argv);
 
-// program
-//   .version('0.0.1')
-//   .option('-h, --host [host]', 'Host name (Config reference only, not full host name).', '')
-//   .option('-c, --command [command]', 'Command or alias', '')
-//   .parse(process.argv);
+console.log(chalk.black.bgBlue('Derbados. Server management tool for lazy people.'));
 
-// console.log(chalk.black.bgBlue('Derbados. Server management tool for lazy people.'));
+// Foreach host entry
+_.forEach(config.get('hosts'), function(host, name) {e
 
-// // Foreach host entry
-// _.forEach(config.get('hosts'), function(host, name) {e
+  // If host name equals host argument
+  if(name === program.host) {
 
-//   // If host name equals host argument
-//   if(name === program.host) {
+  	// Foreach command alias
+    _.forEach(config.get('aliases'), function(command, alias) {
 
-//   	// Foreach command alias
-//     _.forEach(config.get('aliases'), function(command, alias) {
+      // If alias equals command
+      if(program.command === alias) {
 
-//       // If alias equals command
-//       if(program.command === alias) {
+        console.log(chalk.black.bgBlue('Alias: %s found.'), alias);
+        console.log(chalk.black.bgBlue('Running command: %s'), command);
 
-//         console.log(chalk.black.bgBlue('Alias: %s found.'), alias);
-//         console.log(chalk.black.bgBlue('Running command: %s'), command);
+      	// Execute aliased command
+        exec(command, host).pipe(process.stdout);
+      } else {
 
-//       	// Execute aliased command
-//         exec(command, host).pipe(process.stdout);
-//       } else {
-
-//       	// Execute raw command
-//         exec(program.command, host).pipe(process.stdout);
-//       }
-//     });
-//   }
-// });
+      	// Execute raw command
+        exec(program.command, host).pipe(process.stdout);
+      }
+    });
+  }
+});
