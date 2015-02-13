@@ -27,27 +27,38 @@
 var exec = require('ssh-exec');
 var _ = require('lodash');
 var config = require('config');
+var program = require('commander');
+var chalk = require('chalk');
 
-var args = process.argv.slice(2);
+program
+  .version('0.0.1')
+  .option('-h, --host [host]', 'Host name (Config reference only, not full host name).', '')
+  .option('-c, --command [command]', 'Command or alias', '')
+  .parse(process.argv);
+
+console.log(chalk.black.bgBlue('Derbados. Server management tool for lazy people.'));
 
 // Foreach host entry
 _.forEach(config.get('hosts'), function(host, name) {
 
   // If host name equals host argument
-  if(name === args[0]) {
+  if(name === program.host) {
 
   	// Foreach command alias
     _.forEach(config.get('aliases'), function(command, alias) {
 
       // If alias equals command
-      if(args[1] === alias) {
+      if(program.command === alias) {
+
+        console.log(chalk.black.bgBlue('Alias: %s found.'), alias);
+        console.log(chalk.black.bgBlue('Running command: %s'), command);
 
       	// Execute aliased command
         exec(command, host).pipe(process.stdout);
       } else {
 
       	// Execute raw command
-        exec(args[1], host).pipe(process.stdout);
+        exec(program.command, host).pipe(process.stdout);
       }
     });
   }
