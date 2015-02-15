@@ -31,7 +31,7 @@ var program = require('commander');
 var chalk = require('chalk');
 
 program
-  .version('0.0.8')
+  .version('0.0.10')
   .option('-h, --host [otherHosts...]', 'Host name (Config reference only, not full host name).', '')
   .option('-c, --command [command]', 'Command or alias', '')
   .option('-m, --multi <hosts>', 'Multiple host names.')
