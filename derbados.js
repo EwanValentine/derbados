@@ -50,7 +50,7 @@ if(program.multi) {
     names.push(name);
   });
 
-  var hosts = program.multi.split(',');
+  var hosts = program.multi.split(':');
   var connection;
 
   _.forEach(hosts, function(host) {
@@ -62,7 +62,6 @@ if(program.multi) {
       _.forEach(config.get('hosts'), function(hostInstance, name) {
         if(name == host) {
             console.log('Executing on host: ' + name);
-
             exec(program.command, hostInstance).pipe(process.stdout);
         }
       });
