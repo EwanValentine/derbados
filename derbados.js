@@ -31,12 +31,44 @@ var program = require('commander');
 var chalk = require('chalk');
 
 program
-  .version('0.0.1')
-  .option('-h, --host [host]', 'Host name (Config reference only, not full host name).', '')
+  .version('0.0.8')
+  .option('-h, --host [otherHosts...]', 'Host name (Config reference only, not full host name).', '')
   .option('-c, --command [command]', 'Command or alias', '')
+  .option('-m, --multi <hosts>', 'Multiple host names.')
   .parse(process.argv);
 
 console.log(chalk.black.bgBlue('Derbados. Server management tool for lazy people.'));
+
+// First attempt at multiple connections. Works kinda, but needs cleaning up.
+// Example: derbados -m host_one,host_two -c 'tail -f /var/log/nginx/*'
+// Should return error logs from two hosts
+if(program.multi) {
+
+  var names = [];
+
+  _.forEach(config.get('hosts'), function(host, name) {
+    names.push(name);
+  });
+
+  var hosts = program.multi.split(',');
+  var connection;
+
+  _.forEach(hosts, function(host) {
+
+    if(_.contains(names, host)) {
+
+      var host = host;
+
+      _.forEach(config.get('hosts'), function(hostInstance, name) {
+        if(name == host) {
+            console.log('Executing on host: ' + name);
+
+            exec(program.command, hostInstance).pipe(process.stdout);
+        }
+      });
+    }
+  });
+}
 
 // Foreach host entry
 _.forEach(config.get('hosts'), function(host, name) {
@@ -44,7 +76,9 @@ _.forEach(config.get('hosts'), function(host, name) {
   // If host name equals host argument
   if(name === program.host) {
 
-  	// Foreach command alias
+    var connection = exec.connection(host);
+
+    // Foreach command alias
     _.forEach(config.get('aliases'), function(command, alias) {
 
       // If alias equals command
@@ -53,12 +87,12 @@ _.forEach(config.get('hosts'), function(host, name) {
         console.log(chalk.black.bgBlue('Alias: %s found.'), alias);
         console.log(chalk.black.bgBlue('Running command: %s'), command);
 
-      	// Execute aliased command
-        exec(command, host).pipe(process.stdout);
+        // Execute aliased command
+        exec(command, connection).pipe(process.stdout);
       } else {
 
-      	// Execute raw command
-        exec(program.command, host).pipe(process.stdout);
+        // Execute raw command
+        exec(program.command, connection).pipe(process.stdout);
       }
     });
   }
