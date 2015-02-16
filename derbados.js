@@ -57,7 +57,7 @@ if(program.stream) {
 }
 
 if(program.multi) {
-  connect.multi(connect.resolveHost(program.stream), program.multi.split(":"));
+  connect.multi(program.command, program.multi.split(":"));
 }
 
 if(program.host) {

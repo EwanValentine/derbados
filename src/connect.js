@@ -7,6 +7,8 @@ var config = require('config');
 
 module.exports = function() {
 
+  var self = this;
+
   /**
    * multi
    *
@@ -36,7 +38,7 @@ module.exports = function() {
 
         _.forEach(config.get('hosts'), function(hostInstance, name) {
           if(name === host) {
-            fire(command, hostInstance);
+            self.fire(command, hostInstance);
           }
         });
       }
