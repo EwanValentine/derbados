@@ -43,3 +43,11 @@ Finally, Set your node config directory:
 Now if you run ```$ derbados -h servername -c test```
 
 You should see 'This is a test.'. This has just ran on your remote server!
+
+
+### Other commands
+
+Run a single command across multiple servers with ```$ derbados -m host_one:host_two -c 'free -m'```
+
+You can also stream an ssh connection with ```$ derbados -s host_name -t sh``` (-t means shell type, please use either sh for shell or bash for... well bash).
+

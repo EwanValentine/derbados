@@ -1,6 +1,6 @@
 {
   "name": "derbados",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A server management tool for lazy people.",
   "author": "Ewan Valentine <ewan@theladbible.com>",
   "engines": {
