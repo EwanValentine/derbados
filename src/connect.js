@@ -80,7 +80,7 @@ module.exports = function() {
    * @param  {String}     command    
    * @param  {Connection} connection
    * 
-   * @return {void}        
+   * @return {void}     
    */
   this.fire = function(command, connection) {
 
