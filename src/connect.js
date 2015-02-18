@@ -56,22 +56,21 @@ module.exports = function() {
    * 
    * @return {void}
    */
-  this.stream = function(connection, type) {
+  this.stream = function(connection) {
 
-    if(type !== 'undefined') {
-      
-      if(type === 'sh' || 'bash') {
+    // Set input to raw. 
+    // Honestly I don't know what this is, but some lad on GitHub told me to do it.
+    process.stdin.setRawMode(true);
 
-        var stream = process.stdin
-            .pipe(exec(type, connection))
-            .pipe(process.stdout);
-        
-      } else {
+    // Create stream to SSH connection
+    var stream = process.stdin//.setRawMode(true)
+                        .pipe(exec('/bin/bash --rcfile .bashrc -i', connection))
+                        .pipe(process.stdout);
 
-        console.log(type + ' is not a terminal program.');
-        process.exit(1);
-      }
-    }
+    // Kill stream
+    process.stdin.on('data', function(key){
+      if (key == '\u0003') { process.exit(); }    // ctrl-c
+    });
   }
 
   /**

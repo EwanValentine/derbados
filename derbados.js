@@ -39,7 +39,6 @@ program
   .option('-c, --command [command]', 'Command or alias', '')
   .option('-m, --multi <hosts>', 'Multiple host names.')
   .option('-s, --stream <host>', 'Stream to host.')
-  .option('-t, --type <type>', 'Stream type.')
   .parse(process.argv);
 
 console.log(chalk.black.bgBlue('Derbados. Server management tool for lazy people.'));
@@ -48,12 +47,7 @@ console.log(chalk.black.bgBlue('Derbados. Server management tool for lazy people
 // Example: derbados -m host_one,host_two -c 'tail -f /var/log/nginx/*'
 // Should return error logs from two hosts
 if(program.stream) {
-
-  if(!program.type) {
-    connect.stream(connect.resolveHost(program.stream));
-  }
-
-  connect.stream(connect.resolveHost(program.stream), program.type);
+  connect.stream(connect.resolveHost(program.stream));
 }
 
 if(program.multi) {
