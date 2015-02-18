@@ -68,8 +68,11 @@ module.exports = function() {
                         .pipe(process.stdout);
 
     // Kill stream
-    process.stdin.on('data', function(key){
-      if (key == '\u0003') { process.exit(); }    // ctrl-c
+    process.stdin.on('data', function(key) {
+      
+      if (key == '\u0003') { 
+        process.exit(); 
+      } // ctrl-c
     });
   }
 
